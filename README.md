@@ -68,7 +68,7 @@ This plugin is licensed under the **GPL2** license. See [GPL2 License](https://w
 
 ## Author
 
-Developed by [Your Name](https://ardianpradana.com).
+Developed by [Ardian Pradana](https://ardianpradana.com).
 
 ## Support
 
