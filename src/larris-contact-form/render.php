@@ -17,23 +17,23 @@ $answer = $num1 + $num2;
         <ul class="larris-contact-form__list">
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Your Name</label>
-                <input class="larris-contact-form__input" type="text" name="ccf_name" value="John Doe" required>
+                <input class="larris-contact-form__input" type="text" name="ccf_name" required>
             </li>
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Your Email</label>
-                <input class="larris-contact-form__input" type="email" name="ccf_email" value="john.doe@example.com" required>
+                <input class="larris-contact-form__input" type="email" name="ccf_email" required>
             </li>
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Subject</label>
-                <input class="larris-contact-form__input" type="text" name="ccf_subject" value="Test Subject" required>
+                <input class="larris-contact-form__input" type="text" name="ccf_subject" required>
             </li>
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Message</label>
-                <textarea class="larris-contact-form__textarea" name="ccf_message" required>Test message content</textarea>
+                <textarea class="larris-contact-form__textarea" name="ccf_message" required></textarea>
             </li>
             <li class="larris-contact-form__item">
                 <label for="ccf_math">What is <?php echo $num1; ?> + <?php echo $num2; ?>?</label>
-                <input class="larris-contact-form__input" type="text" name="ccf_math" value="" required>
+                <input class="larris-contact-form__input" type="text" name="ccf_math" required>
                 <input type="hidden" name="ccf_math_answer" value="<?php echo $answer; ?>">
                 <p class="warning-input" style="color: red; display: none;">Incorrect answer. Please try again.</p>
                 <script>
