@@ -22,3 +22,31 @@
 
 
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    if (checkUserAnswer() === false) {
+        console.log('answer is wrong')
+        return;
+    } 
+
+    console.log('pass checking')
+
+
+
+
+})
+
+const checkUserAnswer = () => {
+    const userInput = document.querySelector("#user-answer");
+    const answerKey = document.querySelector("#answer-key")
+
+    if (userInput.value === answerKey.value) {
+        return true;
+    } else {
+        return false;
+    }
+
+
+  
+}
