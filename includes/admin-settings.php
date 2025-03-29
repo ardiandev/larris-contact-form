@@ -61,4 +61,5 @@ add_action('admin_init', 'larris_contact_form_register_settings');
 function larris_contact_form_email_field_callback() {
     $email = get_option('larris_contact_form_email', get_option('admin_email'));
     echo '<input type="email" name="larris_contact_form_email" value="' . esc_attr($email) . '" class="regular-text">';
+    echo '<p class="description">Please use an email address associated with your domain (e.g., admin@yourdomain.com) to ensure proper email delivery.</p>';
 }
