@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Ensure reCAPTCHA is completed before submitting
         grecaptcha.ready(function () {
-            grecaptcha.execute("6LdH_gErAAAAAFos1T2WX3F9jzw9Hagz_S5e5qcK", { action: "submit" }).then(function (token) {
+            grecaptcha.execute("<?php echo esc_js($recaptcha_site_key); ?>", { action: "submit" }).then(function (token) {
                 // Append the reCAPTCHA token to the form data
                 var formData = new FormData(form);
                 formData.append("g-recaptcha-response", token);
