@@ -36,23 +36,6 @@ $answer = $num1 + $num2;
                 <input id="user-answer" class="larris-contact-form__input" type="text" name="ccf_math" required>
                 <input id="answer-key" type="hidden" class="ccf_math_answer" name="ccf_math_answer" value="<?php echo $answer; ?>">
                 <p id="warning-input" style="color: red; display: none;">Incorrect answer. Please try again.</p>
-                <!-- <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        var form = document.getElementById("custom-contact-form");
-                        var mathInput = form.querySelector('input[name="ccf_math"]');
-                        var mathAnswer = form.querySelector('input[name="ccf_math_answer"]').value;
-                        var warning = form.querySelector(".warning-input");
-
-                        form.addEventListener("submit", function (e) {
-                            if (parseInt(mathInput.value) !== parseInt(mathAnswer)) {
-                                e.preventDefault();
-                                warning.style.display = "block";
-                            } else {
-                                warning.style.display = "none";
-                            }
-                        });
-                    });
-                </script> -->
             </li>
         </ul>
         <input type="hidden" name="ccf_nonce" value="<?php echo wp_create_nonce('ccf_form_nonce'); ?>">
@@ -69,34 +52,31 @@ $answer = $num1 + $num2;
 var ajaxurl = "<?php echo esc_url(admin_url('admin-ajax.php')); ?>";
 
 document.addEventListener("DOMContentLoaded", function () {
-    
-    var form = document.getElementById("custom-contact-form");
+    const form = document.getElementById("custom-contact-form");
     const warningEl = document.querySelector("#warning-input");
+    const responseElement = document.getElementById("ccf-response");
+    const submitButton = form.querySelector(".larris-contact-form-button");
 
-    if (!form) {
-        console.error("❌ Form element not found!");
-        return;
-    }
-
-    if (!warningEl) {
-        console.error("❌ Warning element not found!");
+    if (!form || !warningEl || !responseElement) {
+        console.error("❌ Required elements not found!");
         return;
     }
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        if ( checkUserAnswer() === false) {
+        if (!checkUserAnswer()) {
             console.log("❌ Incorrect answer. Showing warning.");
             warningEl.style.display = "block";
-            return
+            return;
         }
-        
-        console.log("✅ Correct answer submitted");
-        warningEl.style.display = "none";     
-       
 
-        var formData = new FormData(form);
+        console.log("✅ Correct answer submitted");
+        warningEl.style.display = "none";
+
+        submitButton.disabled = true; // Disable button during submission
+
+        const formData = new FormData(form);
         formData.append("action", "custom_contact_form_handler");
 
         fetch(ajaxurl, {
@@ -105,15 +85,17 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then((response) => response.text())
         .then((data) => {
-            var responseElement = document.getElementById("ccf-response");
-            if (responseElement) {
-                responseElement.innerHTML = data;
-            }
+            submitButton.disabled = false; // Re-enable button
+            responseElement.innerHTML = data;
             if (data.includes("✅")) {
                 form.reset();
             }
         })
-        .catch((error) => console.error("❌ Fetch error:", error));
+        .catch((error) => {
+            submitButton.disabled = false; // Re-enable button
+            console.error("❌ Fetch error:", error);
+            responseElement.innerHTML = "An error occurred. Please try again later.";
+        });
     });
 });
 
