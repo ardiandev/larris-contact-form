@@ -75,7 +75,7 @@ function custom_contact_form_handler() {
     $emailRecipient = get_option('larris_contact_form_email', get_option('admin_email'));
     $to = $emailRecipient;
     $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
-    $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+    $body = "Name: $name\nEmail: $email\nSubject: $subject\n\nMessage:\n$message";
 
     // Send email
     if (wp_mail($to, $subject, $body, $headers)) {
