@@ -35,15 +35,20 @@ function larris_contact_form_settings_page() {
 
 // Register settings
 function larris_contact_form_register_settings() {
+    // Register settings for email and reCAPTCHA keys
     register_setting('larris_contact_form_options', 'larris_contact_form_email');
+    register_setting('larris_contact_form_options', 'larris_recaptcha_site_key');
+    register_setting('larris_contact_form_options', 'larris_recaptcha_secret_key');
 
+    // Add settings section
     add_settings_section(
         'larris_contact_form_section',
-        'Email Settings',
+        'Email and reCAPTCHA Settings',
         null,
         'larris-contact-form-settings'
     );
 
+    // Add email field
     add_settings_field(
         'larris_contact_form_email',
         'Recipient Email',
@@ -51,11 +56,41 @@ function larris_contact_form_register_settings() {
         'larris-contact-form-settings',
         'larris_contact_form_section'
     );
+
+    // Add reCAPTCHA Site Key field
+    add_settings_field(
+        'larris_recaptcha_site_key',
+        'Google reCAPTCHA Site Key',
+        'larris_recaptcha_site_key_field_callback',
+        'larris-contact-form-settings',
+        'larris_contact_form_section'
+    );
+
+    // Add reCAPTCHA Secret Key field
+    add_settings_field(
+        'larris_recaptcha_secret_key',
+        'Google reCAPTCHA Secret Key',
+        'larris_recaptcha_secret_key_field_callback',
+        'larris-contact-form-settings',
+        'larris_contact_form_section'
+    );
 }
 add_action('admin_init', 'larris_contact_form_register_settings');
 
-// Callback function to render input field
+// Callback function to render email input field
 function larris_contact_form_email_field_callback() {
     $email = get_option('larris_contact_form_email', get_option('admin_email'));
     echo '<input type="email" name="larris_contact_form_email" value="' . esc_attr($email) . '" class="regular-text">';
+}
+
+// Callback function to render reCAPTCHA Site Key input field
+function larris_recaptcha_site_key_field_callback() {
+    $site_key = get_option('larris_recaptcha_site_key', '');
+    echo '<input type="password" name="larris_recaptcha_site_key" value="' . esc_attr($site_key) . '" class="regular-text">';
+}
+
+// Callback function to render reCAPTCHA Secret Key input field
+function larris_recaptcha_secret_key_field_callback() {
+    $secret_key = get_option('larris_recaptcha_secret_key', '');
+    echo '<input type="password" name="larris_recaptcha_secret_key" value="' . esc_attr($secret_key) . '" class="regular-text">';
 }

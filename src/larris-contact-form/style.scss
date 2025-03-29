@@ -54,7 +54,7 @@ li.larris-contact-form__item {
 	padding: 20px 0;
 }
 
-.larris-contact-form__button {
+.larris-contact-form-button {
 	display:inline-block;
     padding: 12px 20px;
     font-size: 18px;
@@ -65,3 +65,8 @@ li.larris-contact-form__item {
 }
 
 
+.larris-contact-form__form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}

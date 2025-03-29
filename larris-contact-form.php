@@ -39,21 +39,42 @@ add_action( 'init', 'create_block_larris_contact_form_block_init' );
 
 // ✅ Place AJAX Handler Here (Not in render.php)
 function custom_contact_form_handler() {
-
     $emailRecipient = get_option('larris_contact_form_email', get_option('admin_email'));
+    $recaptcha_secret_key = get_option('larris_recaptcha_secret_key', '');
 
+    if (isset($_POST['action']) && $_POST['action'] === 'custom_contact_form_handler') {
+        // Validate reCAPTCHA
+        if (!empty($recaptcha_secret_key) && isset($_POST['g-recaptcha-response'])) {
+            $recaptcha_response = sanitize_text_field($_POST['g-recaptcha-response']);
+            $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
+                'body' => [
+                    'secret' => $recaptcha_secret_key,
+                    'response' => $recaptcha_response,
+                ],
+            ]);
 
-    if (isset($_POST['action']) && $_POST['action'] === 'custom_contact_form_handler') { 
+            $response_body = wp_remote_retrieve_body($response);
+            $result = json_decode($response_body, true);
+
+            if (empty($result['success']) || !$result['success']) {
+                wp_die('❌ reCAPTCHA validation failed. Please try again.');
+            }
+        } else {
+            wp_die('❌ reCAPTCHA response is missing.');
+        }
+
+        // Sanitize input fields
         $name = sanitize_text_field($_POST['ccf_name']);
         $email = sanitize_email($_POST['ccf_email']);
         $subject = sanitize_text_field($_POST['ccf_subject']);
         $message = sanitize_textarea_field($_POST['ccf_message']);
 
+        // Prepare email
         $to = $emailRecipient;
         $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
-
         $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
 
+        // Send email
         if (wp_mail($to, $subject, $body, $headers)) {
             echo "✅ Message sent successfully!";
         } else {
