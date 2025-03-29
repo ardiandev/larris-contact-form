@@ -38,15 +38,41 @@ function create_block_larris_contact_form_block_init() {
 add_action( 'init', 'create_block_larris_contact_form_block_init' );
 
 function custom_contact_form_handler() {
-    $emailRecipient = get_option('larris_contact_form_email', get_option('admin_email'));
+    // Verify nonce
+    if (!isset($_POST['ccf_nonce']) || !wp_verify_nonce($_POST['ccf_nonce'], 'ccf_form_nonce')) {
+        wp_die('❌ Security check failed.');
+    }
 
-    // Sanitize input fields
-    $name = sanitize_text_field($_POST['ccf_name']);
-    $email = sanitize_email($_POST['ccf_email']);
-    $subject = sanitize_text_field($_POST['ccf_subject']);
-    $message = sanitize_textarea_field($_POST['ccf_message']);
+    // Honeypot validation
+    if (!empty($_POST['ccf_honeypot'])) {
+        wp_die('❌ Spam detected.');
+    }
+
+    // Sanitize and validate input fields
+    $name = isset($_POST['ccf_name']) ? sanitize_text_field($_POST['ccf_name']) : '';
+    $email = isset($_POST['ccf_email']) ? sanitize_email($_POST['ccf_email']) : '';
+    $subject = isset($_POST['ccf_subject']) ? sanitize_text_field($_POST['ccf_subject']) : '';
+    $message = isset($_POST['ccf_message']) ? sanitize_textarea_field($_POST['ccf_message']) : '';
+    $math_answer = isset($_POST['ccf_math']) ? intval($_POST['ccf_math']) : 0;
+    $correct_answer = isset($_POST['ccf_math_answer']) ? intval($_POST['ccf_math_answer']) : 0;
+
+    // Check required fields
+    if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+        wp_die('❌ All fields are required.');
+    }
+
+    // Validate email
+    if (!is_email($email)) {
+        wp_die('❌ Invalid email address.');
+    }
+
+    // Validate math CAPTCHA
+    if ($math_answer !== $correct_answer) {
+        wp_die('❌ Incorrect answer to the math question.');
+    }
 
     // Prepare email
+    $emailRecipient = get_option('larris_contact_form_email', get_option('admin_email'));
     $to = $emailRecipient;
     $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
     $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
@@ -55,10 +81,10 @@ function custom_contact_form_handler() {
     if (wp_mail($to, $subject, $body, $headers)) {
         echo "✅ Message sent successfully!";
     } else {
-        echo "❌ Failed to send message.";
+        wp_die('❌ Failed to send message.');
     }
 
-    wp_die();
+    wp_die(); // Required to terminate the AJAX request
 }
 add_action('wp_ajax_nopriv_custom_contact_form_handler', 'custom_contact_form_handler');
 add_action('wp_ajax_custom_contact_form_handler', 'custom_contact_form_handler');
