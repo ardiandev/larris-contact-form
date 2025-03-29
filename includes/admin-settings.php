@@ -3,14 +3,16 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Add menu page
+// Add menu page under Appearance
 function larris_contact_form_add_admin_menu() {
-    add_options_page(
-        'Larris Contact Form Settings', 
-        'Contact Form', 
-        'manage_options', 
-        'larris-contact-form-settings', 
-        'larris_contact_form_settings_page'
+    add_menu_page(
+        'Larris Contact Form Settings', // Page title
+        'Contact Form', // Menu title
+        'manage_options', // Capability
+        'larris-contact-form-settings', // Menu slug
+        'larris_contact_form_settings_page', // Callback function
+        'dashicons-email-alt', // Icon (email icon)
+        61 // Position (below Appearance)
     );
 }
 add_action('admin_menu', 'larris_contact_form_add_admin_menu');
@@ -54,6 +56,6 @@ add_action('admin_init', 'larris_contact_form_register_settings');
 
 // Callback function to render input field
 function larris_contact_form_email_field_callback() {
-    $email = get_option('larris_contact_form_email', 'admin@your-blog.com');
+    $email = get_option('larris_contact_form_email', get_option('admin_email'));
     echo '<input type="email" name="larris_contact_form_email" value="' . esc_attr($email) . '" class="regular-text">';
 }
