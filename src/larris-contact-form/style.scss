@@ -6,7 +6,62 @@
  */
 
 .wp-block-create-block-larris-contact-form {
-	background-color: #21759b;
+	display: flex;
+	flex-direction: column;
+	background-color: #333;
 	color: #fff;
-	padding: 2px;
+	padding: 20px;
 }
+
+* {
+	box-sizing: border-box;
+	margin:0;
+	padding: 0;
+}
+
+.larris-contact-form__list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	
+
+}
+
+	
+li.larris-contact-form__item {
+	list-style: none ;
+	display: flex;
+	flex-direction: column;
+}
+
+.larris-contact-form__label {
+	font-size: 1.2rem;
+}
+
+.larris-contact-form__input {
+	min-height: 30px;
+	padding: 10px;
+	font-size: 1.2rem;;
+}
+
+.larris-contact-form__textarea {
+	min-height: 100px;
+	padding: 10px;
+	font-size: 1.2rem;	
+}
+
+.button-form-container {
+	padding: 20px 0;
+}
+
+.larris-contact-form__button {
+	display:inline-block;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+

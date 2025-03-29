@@ -14,7 +14,16 @@ return array(
 			
 		),
 		'supports' => array(
-			'html' => false
+			'html' => false,
+			'color' => array(
+				'background' => true,
+				'gradients' => true,
+				'text' => true
+			),
+			'spacing' => array(
+				'padding' => true,
+				'margin' => true
+			)
 		),
 		'textdomain' => 'larris-contact-form',
 		'editorScript' => 'file:./index.js',
@@ -26,6 +35,14 @@ return array(
 			'emailRecipent' => array(
 				'type' => 'string',
 				'default' => 'admin@your-blog.com'
+			),
+			'btnBgColor' => array(
+				'type' => 'string',
+				'default' => '#d8613c'
+			),
+			'btnTextColor' => array(
+				'type' => 'string',
+				'default' => '#ffffff'
 			)
 		)
 	)

@@ -9,7 +9,16 @@
 	"description": "A simple and customizable contact form block, scaffolded with the Create Block tool for easy integration into WordPress.",
 	"example": {},
 	"supports": {
-		"html": false
+		"html": false,
+		"color": {
+			"background": true,
+			"gradients": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true
+		}
 	},
 	"textdomain": "larris-contact-form",
 	"editorScript": "file:./index.js",
@@ -21,6 +30,14 @@
 		"emailRecipent": {
 			"type": "string",
 			"default": "admin@your-blog.com"
+		},
+		"btnBgColor": {
+			"type": "string",
+			"default": "#d8613c"
+		},
+		"btnTextColor": {
+			"type": "string",
+			"default": "#ffffff"
 		}
 	}
 }

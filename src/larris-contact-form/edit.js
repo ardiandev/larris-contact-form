@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, TextControl, ColorPalette, PanelRow } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 
 /**
@@ -44,9 +44,15 @@ export default function Edit(props) {
 	const { emailRecipent, setEmailRecipent } = props.attributes;
 	return (
 		<>
-		<InspectorControls>
-			<PanelBody title={ __( 'Settings', 'larris-contact-form' ) }>
+		<InspectorControls group="styles">
+			{/* <PanelBody title={ __( 'Settings', 'larris-contact-form' ) }>
 				<EmailRecipent attributes={attributes} setAttributes={setAttributes}/>
+			</PanelBody> */}
+			<PanelBody  title={ __( 'Button Color Settings', 'larris-contact-form' ) } initialOpen={ false }>
+				<PanelRow>Background Color</PanelRow>
+				<BtnBackgroundColor />
+				<PanelRow>Text Color</PanelRow>	
+				<BtnTextColor />
 			</PanelBody>
 		</InspectorControls>
 		<div { ...useBlockProps() }>
@@ -72,3 +78,36 @@ const EmailRecipent = ({attributes, setAttributes}) => {
   );
 };
 
+
+
+const BtnBackgroundColor = () => {
+  const [ color, setColor ] = useState ( '#f00' )
+  const colors = [
+    { name: 'red', color: '#f00' },
+    { name: 'white', color: '#fff' },
+    { name: 'blue', color: '#00f' },
+  ];
+  return (
+    <ColorPalette
+      colors={ colors }
+      value={ color }
+      onChange={ ( color ) => setColor( color ) }
+    />
+  );
+};
+
+const BtnTextColor = () => {
+	const [ color, setColor ] = useState ( '#f00' )
+	const colors = [
+	  { name: 'red', color: '#f00' },
+	  { name: 'white', color: '#fff' },
+	  { name: 'blue', color: '#00f' },
+	];
+	return (
+	  <ColorPalette
+		colors={ colors }
+		value={ color }
+		onChange={ ( color ) => setColor( color ) }
+	  />
+	);
+  };
