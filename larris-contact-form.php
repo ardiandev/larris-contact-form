@@ -17,6 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+if (is_admin()) {
+    // Include the admin settings file only in the admin area
+    require_once plugin_dir_path(__FILE__) . 'includes/admin-settings.php';
+}
 
 function create_block_larris_contact_form_block_init() {
 	if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) ) { // Function introduced in WordPress 6.8.
@@ -35,13 +39,17 @@ add_action( 'init', 'create_block_larris_contact_form_block_init' );
 
 // ✅ Place AJAX Handler Here (Not in render.php)
 function custom_contact_form_handler() {
+
+    $emailRecipient = get_option('larris_contact_form_email', get_option('admin_email'));
+
+
     if (isset($_POST['action']) && $_POST['action'] === 'custom_contact_form_handler') { 
         $name = sanitize_text_field($_POST['ccf_name']);
         $email = sanitize_email($_POST['ccf_email']);
         $subject = sanitize_text_field($_POST['ccf_subject']);
         $message = sanitize_textarea_field($_POST['ccf_message']);
 
-        $to = "admin@ardianpradana.com";
+        $to = $emailRecipient;
         $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
 
         $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
