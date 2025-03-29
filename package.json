@@ -12,7 +12,8 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start --webpack-copy-php --blocks-manifest"
+		"start": "wp-scripts start --webpack-copy-php --blocks-manifest",
+		"deploy": "npm run build && git add . && git commit -m 'Deploy changes' && git push origin main"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^30.14.0"
