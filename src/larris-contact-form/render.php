@@ -39,6 +39,7 @@ $recaptcha_site_key = get_option('larris_recaptcha_site_key', '');
     </form>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </div>
+
 <script>
 var ajaxurl = "<?php echo esc_url(admin_url('admin-ajax.php')); ?>";
 
@@ -51,34 +52,36 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     form.addEventListener("submit", function (e) {
-        e.preventDefault();
+        if (!grecaptcha.getResponse()) {
+            alert("⚠️ Please complete the reCAPTCHA before submitting.");
+            e.preventDefault();
+            return;
+        }
 
-        // Ensure reCAPTCHA is completed before submitting
-        grecaptcha.ready(function () {
-            grecaptcha.execute("<?php echo esc_js($recaptcha_site_key); ?>", { action: "submit" }).then(function (token) {
-                // Append the reCAPTCHA token to the form data
-                var formData = new FormData(form);
-                formData.append("g-recaptcha-response", token);
-                formData.append("action", "custom_contact_form_handler");
+        // Prepare form data
+        var formData = new FormData(form);
+        formData.append("g-recaptcha-response", grecaptcha.getResponse());
+        formData.append("action", "custom_contact_form_handler");
 
-                // Send the AJAX request
-                fetch(ajaxurl, {
-                    method: "POST",
-                    body: formData,
-                })
-                    .then((response) => response.text())
-                    .then((data) => {
-                        var responseElement = document.getElementById("ccf-response");
-                        if (responseElement) {
-                            responseElement.innerHTML = data;
-                        }
-                        if (data.includes("✅")) {
-                            form.reset();
-                        }
-                    })
-                    .catch((error) => console.error("❌ Fetch error:", error));
-            });
-        });
+        // Send the AJAX request
+        fetch(ajaxurl, {
+            method: "POST",
+            body: formData,
+        })
+        .then((response) => response.text())
+        .then((data) => {
+            var responseElement = document.getElementById("ccf-response");
+            if (responseElement) {
+                responseElement.innerHTML = data;
+            }
+            if (data.includes("✅")) {
+                form.reset();
+                grecaptcha.reset();
+            }
+        })
+        .catch((error) => console.error("❌ Fetch error:", error));
+
+        e.preventDefault(); // Prevent default form submission
     });
 });
 </script>
