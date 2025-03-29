@@ -17,13 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-/**
- * Registers the block using the metadata loaded from the `block.json` file.
- * Behind the scenes, it registers also all assets so they can be enqueued
- * through the block editor in the corresponding context.
- *
- * @see https://developer.wordpress.org/reference/functions/register_block_type/
- */
+
 function create_block_larris_contact_form_block_init() {
 	if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) ) { // Function introduced in WordPress 6.8.
 		wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
@@ -39,28 +33,29 @@ function create_block_larris_contact_form_block_init() {
 }
 add_action( 'init', 'create_block_larris_contact_form_block_init' );
 
+// ✅ Place AJAX Handler Here (Not in render.php)
+function custom_contact_form_handler() {
+    if (isset($_POST['action']) && $_POST['action'] === 'custom_contact_form_handler') { 
+        $name = sanitize_text_field($_POST['ccf_name']);
+        $email = sanitize_email($_POST['ccf_email']);
+        $subject = sanitize_text_field($_POST['ccf_subject']);
+        $message = sanitize_textarea_field($_POST['ccf_message']);
 
-// function custom_contact_form_handler() {
-//     if ($_POST['action'] === 'custom_contact_form_handler') { // ✅ Fix AJAX handler
-//         $name = sanitize_text_field($_POST['ccf_name']);
-//         $email = sanitize_email($_POST['ccf_email']);
-//         $subject = sanitize_text_field($_POST['ccf_subject']);
-//         $message = sanitize_textarea_field($_POST['ccf_message']);
+        $to = "admin@ardianpradana.com";
+        $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
 
-//         $to = "admin@ardianpradana.com";
-//         $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
+        $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
 
-//         $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+        if (wp_mail($to, $subject, $body, $headers)) {
+            echo "✅ Message sent successfully!";
+        } else {
+            echo "❌ Failed to send message.";
+        }
+    }
+    wp_die();
+}
 
-//         if (wp_mail($to, $subject, $body, $headers)) {
-//             echo "✅ Message sent successfully!";
-//         } else {
-//             echo "❌ Failed to send message.";
-//         }
-//     }
-//     wp_die();
-// }
+add_action('wp_ajax_nopriv_custom_contact_form_handler', 'custom_contact_form_handler');
+add_action('wp_ajax_custom_contact_form_handler', 'custom_contact_form_handler');
 
-// add_action('wp_ajax_nopriv_custom_contact_form_handler', 'custom_contact_form_handler');
-// add_action('wp_ajax_custom_contact_form_handler', 'custom_contact_form_handler');
 
