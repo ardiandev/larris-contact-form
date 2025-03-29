@@ -6,8 +6,6 @@ if (!defined('ABSPATH')) {
 $btnBgColor = $attributes['btnBgColor'] ?? '#000000';
 $btnTextColor = $attributes['btnTextColor'] ?? 'red';
 $blockProps = get_block_wrapper_attributes();
-
-$recaptcha_site_key = get_option('larris_recaptcha_site_key', '');
 ?>
 <div <?php echo $blockProps; ?>>
 
@@ -15,29 +13,28 @@ $recaptcha_site_key = get_option('larris_recaptcha_site_key', '');
         <ul class="larris-contact-form__list">
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Your Name</label>
-                <input class="larris-contact-form__input" type="text" value="ardian" name="ccf_name" required>
+                <input class="larris-contact-form__input" type="text" name="ccf_name" value="John Doe" required>
             </li>
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Your Email</label>
-                <input class="larris-contact-form__input" type="email" value="lanangmenoreh@gmail.com" name="ccf_email" required>
+                <input class="larris-contact-form__input" type="email" name="ccf_email" value="johndoe@example.com" required>
             </li>
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Subject</label>
-                <input class="larris-contact-form__input" type="text" value="job offer" name="ccf_subject" required>
+                <input class="larris-contact-form__input" type="text" name="ccf_subject" value="Test Subject" required>
             </li>
             <li class="larris-contact-form__item">
                 <label class="larris-contact-form__label">Message</label>
-                <textarea class="larris-contact-form__textarea" name="ccf_message" required>Test Message</textarea>
+                <textarea class="larris-contact-form__textarea" name="ccf_message" required>Test message content</textarea>
             </li>
         </ul>
-        <?php if (!empty($recaptcha_site_key)) : ?>
-            <div class="g-recaptcha" data-sitekey="<?php echo esc_attr($recaptcha_site_key); ?>"></div>
-        <?php endif; ?>
         <button type="submit" class="larris-contact-form-button" style="background-color: <?php echo esc_attr($btnBgColor); ?>; color: <?php echo esc_attr($btnTextColor); ?>;">
             Submit
         </button>
     </form>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <!-- Add this div to display the response -->
+    <div id="ccf-response" class="larris-contact-form-response"></div>
 </div>
 
 <script>
@@ -52,15 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     form.addEventListener("submit", function (e) {
-        if (!grecaptcha.getResponse()) {
-            alert("⚠️ Please complete the reCAPTCHA before submitting.");
-            e.preventDefault();
-            return;
-        }
+        e.preventDefault();
 
         // Prepare form data
         var formData = new FormData(form);
-        formData.append("g-recaptcha-response", grecaptcha.getResponse());
         formData.append("action", "custom_contact_form_handler");
 
         // Send the AJAX request
@@ -76,12 +68,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             if (data.includes("✅")) {
                 form.reset();
-                grecaptcha.reset();
             }
         })
         .catch((error) => console.error("❌ Fetch error:", error));
-
-        e.preventDefault(); // Prevent default form submission
     });
 });
 </script>
