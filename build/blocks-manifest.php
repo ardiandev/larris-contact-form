@@ -8,8 +8,8 @@ return array(
 		'version' => '0.1.0',
 		'title' => 'Larris Contact Form',
 		'category' => 'widgets',
-		'icon' => 'smiley',
-		'description' => 'Example block scaffolded with Create Block tool.',
+		'icon' => 'email',
+		'description' => 'A simple and customizable contact form block, scaffolded with the Create Block tool for easy integration into WordPress.',
 		'example' => array(
 			
 		),
@@ -21,6 +21,12 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js'
+		'viewScript' => 'file:./view.js',
+		'attributes' => array(
+			'emailRecipent' => array(
+				'type' => 'string',
+				'default' => 'admin@your-blog.com'
+			)
+		)
 	)
 );

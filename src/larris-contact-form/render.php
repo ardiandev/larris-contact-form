@@ -14,43 +14,63 @@ if (!defined('ABSPATH')) {
     exit; // Prevent direct access
 }
 
-?>
+function render_larris_contact_form($attributes) {
+    $emailRecipent = isset($attributes['emailRecipent']) ? esc_attr($attributes['emailRecipent']) : get_option('admin_email');
 
-<form id="custom-contact-form">
-    <label>Your Name</label>
-    <input type="text" name="ccf_name" value="Ardian Pradana" required>
+    ob_start();
+    ?>
+    <form id="custom-contact-form">
+        <input type="hidden" name="ccf_emailRecipent" value="<?php echo esc_attr($emailRecipent); ?>">
+        <input type="text" name="ccf_name" placeholder="Your Name" required>
+        <input type="email" name="ccf_email" placeholder="Your Email" required>
+        <input type="text" name="ccf_subject" placeholder="Subject" required>
+        <textarea name="ccf_message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send</button>
+    </form>
 
-    <label>Your Email</label>
-    <input type="email" name="ccf_email" value="lanangmenoreh@gmail.com" required>
+    <script>
+        document.getElementById("custom-contact-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append("action", "custom_contact_form_handler");
 
-    <label>Subject</label>
-    <input type="text" name="ccf_subject" value="Your Subject Here" required>
+            fetch("<?php echo esc_url(admin_url('admin-ajax.php')); ?>", {
+                method: "POST",
+                body: formData
+            }).then(response => response.text()).then(result => alert(result));
+        });
+    </script>
+    <?php
+    return ob_get_clean();
+}
 
-    <label>Message</label>
-    <textarea name="ccf_message" required>Test Contact Form</textarea>
+echo render_larris_contact_form($attributes);
 
-    <button type="submit">Send</button>
-</form>
+// ✅ Define AJAX handler inside `render.php` (but ensure it is not redeclared)
+if (!function_exists('custom_contact_form_handler')) {
+    function custom_contact_form_handler() {
+        if ($_POST['action'] === 'custom_contact_form_handler') {
+            $name = sanitize_text_field($_POST['ccf_name']);
+            $email = sanitize_email($_POST['ccf_email']);
+            $subject = sanitize_text_field($_POST['ccf_subject']);
+            $message = sanitize_textarea_field($_POST['ccf_message']);
 
-<div id="ccf-response"></div>
+            // Get email recipient from form input
+            $to = isset($_POST['ccf_emailRecipent']) ? sanitize_email($_POST['ccf_emailRecipent']) : get_option('admin_email');
 
-<script>
-document.getElementById("custom-contact-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    
-    var formData = new FormData(this);
-    formData.append("action", "custom_contact_form_handler"); // ✅ Append action for AJAX
+            $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
+            $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
 
-    fetch("<?php echo admin_url('admin-ajax.php'); ?>", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById("ccf-response").innerHTML = data;
-        if (data.includes("✅")) {
-            document.getElementById("custom-contact-form").reset(); // ✅ Reset form on success
+            if (wp_mail($to, $subject, $body, $headers)) {
+                echo "✅ Message sent successfully!";
+            } else {
+                echo "❌ Failed to send message.";
+            }
         }
-    });
-});
-</script>
+        wp_die();
+    }
+
+    add_action('wp_ajax_nopriv_custom_contact_form_handler', 'custom_contact_form_handler');
+    add_action('wp_ajax_custom_contact_form_handler', 'custom_contact_form_handler');
+}
+?>

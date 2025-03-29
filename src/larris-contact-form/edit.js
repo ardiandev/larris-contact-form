@@ -11,7 +11,15 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
+import { useState } from '@wordpress/element';
+
+/**
+ * Imports the CSS file for the block.
+ *
+ * @see https://developer.wordpress.org/block-editor/developers/block-api/block-styles/
+ */
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -29,13 +37,38 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit() {
+export default function Edit(props) {
+
+	console.log(props.attributes);
+	const { attributes, setAttributes } = props;
+	const { emailRecipent, setEmailRecipent } = props.attributes;
 	return (
-		<p { ...useBlockProps() }>
+		<>
+		<InspectorControls>
+			<PanelBody title={ __( 'Settings', 'larris-contact-form' ) }>
+				<EmailRecipent attributes={attributes} setAttributes={setAttributes}/>
+			</PanelBody>
+		</InspectorControls>
+		<div { ...useBlockProps() }>
 			{ __(
 				'Larris Contact Form – hello from the editor!',
 				'larris-contact-form'
 			) }
-		</p>
+		</div>
+		</>
 	);
 }
+
+
+const EmailRecipent = ({attributes, setAttributes}) => {
+
+  return (
+    <TextControl
+      label="Email Recipent"
+	  help="Only works with domain-based emails (e.g., admin@yourdomain.com). Free email providers may not be supported."
+      value={ attributes.emailRecipent }
+	  onChange={(value) => {setAttributes({emailRecipent: value})}}
+    />
+  );
+};
+

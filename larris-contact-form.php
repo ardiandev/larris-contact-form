@@ -40,27 +40,27 @@ function create_block_larris_contact_form_block_init() {
 add_action( 'init', 'create_block_larris_contact_form_block_init' );
 
 
-function custom_contact_form_handler() {
-    if ($_POST['action'] === 'custom_contact_form_handler') { // ✅ Fix AJAX handler
-        $name = sanitize_text_field($_POST['ccf_name']);
-        $email = sanitize_email($_POST['ccf_email']);
-        $subject = sanitize_text_field($_POST['ccf_subject']);
-        $message = sanitize_textarea_field($_POST['ccf_message']);
+// function custom_contact_form_handler() {
+//     if ($_POST['action'] === 'custom_contact_form_handler') { // ✅ Fix AJAX handler
+//         $name = sanitize_text_field($_POST['ccf_name']);
+//         $email = sanitize_email($_POST['ccf_email']);
+//         $subject = sanitize_text_field($_POST['ccf_subject']);
+//         $message = sanitize_textarea_field($_POST['ccf_message']);
 
-        $to = "admin@ardianpradana.com";
-        $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
+//         $to = "admin@ardianpradana.com";
+//         $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
 
-        $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+//         $body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
 
-        if (wp_mail($to, $subject, $body, $headers)) {
-            echo "✅ Message sent successfully!";
-        } else {
-            echo "❌ Failed to send message.";
-        }
-    }
-    wp_die();
-}
+//         if (wp_mail($to, $subject, $body, $headers)) {
+//             echo "✅ Message sent successfully!";
+//         } else {
+//             echo "❌ Failed to send message.";
+//         }
+//     }
+//     wp_die();
+// }
 
-add_action('wp_ajax_nopriv_custom_contact_form_handler', 'custom_contact_form_handler');
-add_action('wp_ajax_custom_contact_form_handler', 'custom_contact_form_handler');
+// add_action('wp_ajax_nopriv_custom_contact_form_handler', 'custom_contact_form_handler');
+// add_action('wp_ajax_custom_contact_form_handler', 'custom_contact_form_handler');
 
