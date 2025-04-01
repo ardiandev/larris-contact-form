@@ -8,9 +8,11 @@
 .wp-block-create-block-larris-contact-form {
 	display: flex;
 	flex-direction: column;
-	background-color: #333;
-	color: #fff;
-	padding: 20px;
+	background-color: #0a1128;
+	color: #D9D9D9;
+	padding: 30px;
+	border: 1px solid #D9D9D9;
+	border-radius: 5px;
 }
 
 * {
@@ -32,6 +34,7 @@ li.larris-contact-form__item {
 	list-style: none ;
 	display: flex;
 	flex-direction: column;
+	gap: 0.5rem;
 }
 
 .larris-contact-form__label {
@@ -45,7 +48,7 @@ li.larris-contact-form__item {
 }
 
 .larris-contact-form__textarea {
-	min-height: 100px;
+	min-height: 150px;
 	padding: 10px;
 	font-size: 1.2rem;	
 }
