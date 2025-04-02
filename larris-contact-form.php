@@ -90,7 +90,7 @@ function custom_contact_form_handler() {
         'status' => 'success',
         'message' => '✅ Message sent successfully!',
         'new_question' => $new_question,
-        'new_answer' => $answer,
+        'new_answer' => $new_answer,
     ]);
     } else {
         wp_die('❌ Failed to send message.');
