@@ -53,8 +53,8 @@ function custom_contact_form_handler() {
     $email = isset($_POST['ccf_email']) ? sanitize_email($_POST['ccf_email']) : '';
     $subject = isset($_POST['ccf_subject']) ? sanitize_text_field($_POST['ccf_subject']) : '';
     $message = isset($_POST['ccf_message']) ? sanitize_textarea_field($_POST['ccf_message']) : '';
-    $math_answer = isset($_POST['ccf_math']) ? intval($_POST['ccf_math']) : 0;
-    $correct_answer = isset($_POST['ccf_math_answer']) ? intval($_POST['ccf_math_answer']) : 0;
+    // $math_answer = isset($_POST['ccf_math']) ? intval($_POST['ccf_math']) : 0;
+    // $correct_answer = isset($_POST['ccf_math_answer']) ? intval($_POST['ccf_math_answer']) : 0;
 
     // Check required fields
     if (empty($name) || empty($email) || empty($subject) || empty($message)) {
@@ -66,10 +66,35 @@ function custom_contact_form_handler() {
         wp_die('❌ Invalid email address.');
     }
 
-    // Validate math CAPTCHA
-    if ($math_answer !== $correct_answer) {
-        wp_die('❌ Incorrect answer to the math question.');
+    // // Validate math CAPTCHA
+    // if ($math_answer !== $correct_answer) {
+    //     wp_die('❌ Incorrect answer to the math question.');
+    // }
+
+
+
+    // Validate Google reCAPTCHA
+    $recaptcha_response = isset($_POST['g-recaptcha-response']) ? $_POST['g-recaptcha-response'] : '';
+    $secret_key = '6LdfrQcrAAAAAHpZBD-uVH94JwP2E9G3OhOSiva6'; // Replace with your secret key
+
+    $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+    $recaptcha_data = [
+        'secret'   => $secret_key,
+        'response' => $recaptcha_response
+    ];
+
+
+    $response = wp_remote_post($recaptcha_url, [
+        'body' => $recaptcha_data
+    ]);
+
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body);
+
+    if (!$result->success) {
+        wp_die('❌ Google reCAPTCHA validation failed. Please try again.');
     }
+
 
     // Prepare email
     $emailRecipient = get_option('larris_contact_form_email', get_option('admin_email'));
