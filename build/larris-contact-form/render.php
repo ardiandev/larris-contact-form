@@ -32,7 +32,7 @@ $answer = $num1 + $num2;
                 <textarea class="larris-contact-form__textarea" name="ccf_message" required></textarea>
             </li>
             <li class="larris-contact-form__item">
-                <label for="ccf_math">What is <?php echo $num1; ?> + <?php echo $num2; ?>?</label>
+                <label id="math-question" for="ccf_math">What is <?php echo $num1; ?> + <?php echo $num2; ?>?</label>
                 <input id="user-answer" class="larris-contact-form__input" type="text" name="ccf_math" required>
                 <input id="answer-key" type="hidden" class="ccf_math_answer" name="ccf_math_answer" value="<?php echo $answer; ?>">
                 <p id="warning-input" style="color: red; display: none;">Incorrect answer. Please try again.</p>
@@ -83,13 +83,24 @@ document.addEventListener("DOMContentLoaded", function () {
             method: "POST",
             body: formData,
         })
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((data) => {
-            submitButton.disabled = false; // Re-enable button
-            responseElement.innerHTML = data;
-            if (data.includes("✅")) {
-                form.reset();
+            if (!data.status === "success") {
+                console.error("❌ Server error:", data);
+                responseElement.innerHTML = "An error occurred. Please try again later.";
+                return;
             }
+
+            responseElement.innerHTML = data.message;
+
+            // Reload the math question with new numbers
+            reloadMathQuestion(data.new_question, data.new_answer);
+
+            // Optionally reset the form fields if desired
+            form.reset();
+
+            submitButton.disabled = false; // Re-enable button
+
         })
         .catch((error) => {
             submitButton.disabled = false; // Re-enable button
@@ -98,6 +109,25 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+const reloadMathQuestion = (question, answer) => {
+    console.log(question, answer);
+    const mathQuestionEl = document.querySelector("#math-question");
+    const answerKeyEl = document.querySelector("#answer-key");
+    const userAnswerEl = document.querySelector("#user-answer");
+    const warningEl = document.querySelector("#warning-input");
+    if (!mathQuestionEl || !answerKeyEl || !userAnswerEl || !warningEl) {
+        console.error("❌ Required elements not found!");
+        return;
+    }
+    mathQuestionEl.innerHTML = question;
+    answerKeyEl.value = answer;
+    userAnswerEl.value = "";
+    warningEl.style.display = "none"; // Hide warning when reloading question
+    userAnswerEl.focus(); // Focus on the answer input field
+    userAnswerEl.select(); // Select the input text for easy overwriting
+
+}
 
 const checkUserAnswer = () => {
     const userAnswerEl = document.querySelector("#user-answer");
