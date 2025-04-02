@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const responseElement = document.getElementById("ccf-response");
     const submitButton = form.querySelector(".larris-contact-form-button");
 
-    if (!form || !warningEl || !responseElement) {
+    if (!form ||!responseElement) {
         console.error("❌ Required elements not found!");
         return;
     }
