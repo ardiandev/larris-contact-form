@@ -83,12 +83,13 @@ function custom_contact_form_handler() {
     $num1 = rand( 1, 10 );
     $num2 = rand( 1, 10 );
     $new_answer = $num1 + $num2;
+    $new_question = "What is $num1 + $num2?";
 
     // Send back the new question and answer to the front-end
     echo json_encode([
         'status' => 'success',
         'message' => '✅ Message sent successfully!',
-        'new_question' => $mathQuestion,
+        'new_question' => $new_question,
         'new_answer' => $answer,
     ]);
     } else {
