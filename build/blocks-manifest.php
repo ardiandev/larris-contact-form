@@ -30,7 +30,6 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'render' => 'file:./render.php',
-		'viewScript' => 'file:./view.js',
 		'attributes' => array(
 			'emailRecipent' => array(
 				'type' => 'string',
