@@ -122,24 +122,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-const reloadMathQuestion = (question, answer) => {
-    console.log(question, answer);
-    const mathQuestionEl = document.querySelector("#math-question");
-    const answerKeyEl = document.querySelector("#answer-key");
-    const userAnswerEl = document.querySelector("#user-answer");
-    const warningEl = document.querySelector("#warning-input");
-    if (!mathQuestionEl || !answerKeyEl || !userAnswerEl || !warningEl) {
-        console.error("❌ Required elements not found!");
-        return;
-    }
-    mathQuestionEl.innerHTML = question;
-    answerKeyEl.value = answer;
-    userAnswerEl.value = "";
-    warningEl.style.display = "none"; // Hide warning when reloading question
-    userAnswerEl.focus(); // Focus on the answer input field
-    userAnswerEl.select(); // Select the input text for easy overwriting
+// const reloadMathQuestion = (question, answer) => {
+//     console.log(question, answer);
+//     const mathQuestionEl = document.querySelector("#math-question");
+//     const answerKeyEl = document.querySelector("#answer-key");
+//     const userAnswerEl = document.querySelector("#user-answer");
+//     const warningEl = document.querySelector("#warning-input");
+//     if (!mathQuestionEl || !answerKeyEl || !userAnswerEl || !warningEl) {
+//         console.error("❌ Required elements not found!");
+//         return;
+//     }
+//     mathQuestionEl.innerHTML = question;
+//     answerKeyEl.value = answer;
+//     userAnswerEl.value = "";
+//     warningEl.style.display = "none"; // Hide warning when reloading question
+//     userAnswerEl.focus(); // Focus on the answer input field
+//     userAnswerEl.select(); // Select the input text for easy overwriting
 
-}
+// }
 
 const checkUserAnswer = () => {
     const userAnswerEl = document.querySelector("#user-answer");
