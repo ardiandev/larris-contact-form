@@ -1,1 +1,0 @@
-(()=>{document.addEventListener("DOMContentLoaded",(()=>{!1!==e()?console.log("pass checking"):console.log("answer is wrong")}));const e=()=>{const e=document.querySelector("#user-answer"),n=document.querySelector("#answer-key");return e.value===n.value}})();
