@@ -79,7 +79,18 @@ function custom_contact_form_handler() {
 
     // Send email
     if (wp_mail($to, $subject, $body, $headers)) {
-        echo "✅ Message sent successfully!";
+            // Prepare new math question and answer for reload
+    $num1 = rand( 1, 10 );
+    $num2 = rand( 1, 10 );
+    $new_answer = $num1 + $num2;
+
+    // Send back the new question and answer to the front-end
+    echo json_encode([
+        'status' => 'success',
+        'message' => '✅ Message sent successfully!',
+        'new_question' => $mathQuestion,
+        'new_answer' => $answer,
+    ]);
     } else {
         wp_die('❌ Failed to send message.');
     }
