@@ -4,6 +4,34 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-// .wp-block-create-block-larris-contact-form {
-// 	border: 1px dotted #f00;
-// }
+.wp-block-create-block-larris-contact-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+ 
+    
+}
+
+
+
+.components-base-control.larris-contact-form__item div {
+    display: flex;;
+    flex-direction: column;
+    gap: 0;
+}
+
+.components-base-control.larris-contact-form__item div label{
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-transform: capitalize !important;
+}
+
+.larris-contact-form-button {
+	display:inline-block;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}

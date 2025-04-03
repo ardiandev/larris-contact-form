@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, ColorPalette, PanelRow } from '@wordpress/components';
+import { PanelBody, TextControl, TextareaControl, ColorPalette, PanelRow } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 
 /**
@@ -39,8 +39,8 @@ import './editor.scss';
  */
 export default function Edit(props) {
 
-	console.log(props.attributes);
 	const { attributes, setAttributes } = props;
+	const {btnBgColor, btnTextColor} = attributes;
 	const { emailRecipent, setEmailRecipent } = props.attributes;
 	return (
 		<>
@@ -56,28 +56,11 @@ export default function Edit(props) {
 			</PanelBody>
 		</InspectorControls>
 		<div { ...useBlockProps() }>
-			{ __(
-				'Larris Contact Form – hello from the editor!',
-				'larris-contact-form'
-			) }
+			< FormEl btnBgColor={btnBgColor} btnTextColor={btnTextColor}/>
 		</div>
 		</>
 	);
 }
-
-
-const EmailRecipent = ({attributes, setAttributes}) => {
-
-  return (
-    <TextControl
-      label="Email Recipent"
-	  help="Only works with domain-based emails (e.g., admin@yourdomain.com). Free email providers may not be supported."
-      value={ attributes.emailRecipent }
-	  onChange={(value) => {setAttributes({emailRecipent: value})}}
-    />
-  );
-};
-
 
 
 const BtnBackgroundColor = () => {
@@ -111,3 +94,79 @@ const BtnTextColor = () => {
 	  />
 	);
   };
+
+  const FormEl = ({btnBgColor, btnTextColor}) => {
+	return (
+		<>
+			< YourName />
+			< YourEmail />
+			< Subject />
+			< Message />
+			< SubmitBtn btnBgColor={btnBgColor} btnTextColor={btnTextColor}  />
+		</>
+	)
+  }
+
+
+const YourName = () => {
+  const [ className, setClassName ] = useState( '' );
+
+  return (
+    <TextControl
+      label="Your Name"
+      value={ className }
+      onChange={ ( value ) => setClassName( value ) }
+	  className="larris-contact-form__item"
+    />
+  );
+};
+
+const YourEmail = () => {
+	const [ className, setClassName ] = useState( '' );
+  
+	return (
+	  <TextControl
+		label="Your Email"
+		value={ className }
+		onChange={ ( value ) => setClassName( value ) }
+		className="larris-contact-form__item"
+	  />
+	);
+  };
+
+
+const Subject = () => {
+	const [ className, setClassName ] = useState( '' );
+  
+	return (
+	  <TextControl
+		label="Subject"
+		value={ className }
+		onChange={ ( value ) => setClassName( value ) }
+		className="larris-contact-form__item"
+	  />
+	);
+  };
+
+
+const Message = () => {
+	const [ className, setClassName ] = useState( '' );
+  
+	return (
+	  <TextareaControl
+		label="Message"
+		value={ className }
+		onChange={ ( value ) => setClassName( value ) }
+		className="larris-contact-form__item"
+	  />
+	);
+  };
+
+  const SubmitBtn = ({btnBgColor, btnTextColor}) => {
+	console.log(btnBgColor)
+	return (
+		<button className="larris-contact-form-button" style={{backgroundColor: btnBgColor, color: btnTextColor}}  >
+			{ __( 'Submit', 'larris-contact-form' ) }
+		</button>
+	)
+  }
