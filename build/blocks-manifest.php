@@ -37,7 +37,7 @@ return array(
 			),
 			'btnBgColor' => array(
 				'type' => 'string',
-				'default' => '#d9d9d9'
+				'default' => '#ffd700'
 			),
 			'btnTextColor' => array(
 				'type' => 'string',
