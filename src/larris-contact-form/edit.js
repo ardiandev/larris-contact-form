@@ -90,7 +90,7 @@ const BtnTextColor = ({btnTextColor, setAttributes}) => {
 		{ name: 'coral', color: '#ff7f50' },
 		{ name: 'green', color: '#28a745' },       
 		{ name: 'deep red', color: '#b22222' },    
-		{ name: 'purple', color: '#6a0dad' },      
+		{ name: 'black', color: '#0000' },      
 	];
 	return (
 	  <ColorPalette
