@@ -1,1 +1,35 @@
-.wp-block-create-block-larris-contact-form{display:flex!important;flex-direction:column!important;gap:1rem!important}.components-base-control.larris-contact-form__item div{display:flex;flex-direction:column;gap:0}.components-base-control.larris-contact-form__item div label{font-size:1.2rem;font-weight:500;text-transform:capitalize!important}.larris-contact-form-button{border:none;border-radius:5px;cursor:pointer;display:inline-block;font-size:18px;padding:12px 20px;transition:background .3s}
+/*!************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/larris-contact-form/editor.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-create-block-larris-contact-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+}
+
+.components-base-control.larris-contact-form__item div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.components-base-control.larris-contact-form__item div label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: capitalize !important;
+}
+
+.larris-contact-form-button {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
