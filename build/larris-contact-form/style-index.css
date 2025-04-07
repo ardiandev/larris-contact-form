@@ -45,12 +45,14 @@ li.larris-contact-form__item {
   min-height: 30px;
   padding: 10px;
   font-size: 1.2rem;
+  background-color: #D9D9D9;
 }
 
 .larris-contact-form__textarea {
   min-height: 150px;
   padding: 10px;
   font-size: 1.2rem;
+  background-color: #D9D9D9;
 }
 
 .button-form-container {
