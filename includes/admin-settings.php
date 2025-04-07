@@ -61,5 +61,8 @@ add_action('admin_init', 'larris_contact_form_register_settings');
 function larris_contact_form_email_field_callback() {
     $email = get_option('larris_contact_form_email', get_option('admin_email'));
     echo '<input type="email" name="larris_contact_form_email" value="' . esc_attr($email) . '" class="regular-text">';
-    echo '<p class="description">Please use an email address associated with your domain (e.g., admin@yourdomain.com) to ensure proper email delivery.</p>';
+    echo '<p>
+             ⚠️ <strong>Tip:</strong> For best results, use a domain-based email address. If you prefer using Gmail, Outlook, or other free email services, make sure to configure an SMTP plugin. To set it up properly, please follow this 
+             <a href="https://ardianpradana.com/tutorial-setup-contact-form-with-smtp" target="_blank" rel="noopener noreferrer">SMTP setup guide</a>.
+        </p>';
 }

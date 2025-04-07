@@ -44,53 +44,59 @@ export default function Edit(props) {
 	const { emailRecipent, setEmailRecipent } = props.attributes;
 	return (
 		<>
-		<InspectorControls group="styles">
-			{/* <PanelBody title={ __( 'Settings', 'larris-contact-form' ) }>
-				<EmailRecipent attributes={attributes} setAttributes={setAttributes}/>
-			</PanelBody> */}
-			<PanelBody  title={ __( 'Button Color Settings', 'larris-contact-form' ) } initialOpen={ false }>
-				<PanelRow>Background Color</PanelRow>
-				<BtnBackgroundColor />
-				<PanelRow>Text Color</PanelRow>	
-				<BtnTextColor />
-			</PanelBody>
-		</InspectorControls>
-		<div { ...useBlockProps() }>
+			<InspectorControls group="settings">
+				<PanelBody  title={ __( 'Button Style', 'larris-contact-form' ) } initialOpen={ true }>
+					<PanelRow>Background</PanelRow>
+					<BtnBackgroundColor btnBgColor={btnBgColor} setAttributes={setAttributes} />
+					<PanelRow>Text</PanelRow>	
+					<BtnTextColor btnTextColor={btnTextColor} setAttributes={setAttributes}  />
+				</PanelBody>
+			</InspectorControls>
+			<div { ...useBlockProps() }>
 			< FormEl btnBgColor={btnBgColor} btnTextColor={btnTextColor}/>
-		</div>
+			</div>
 		</>
 	);
 }
 
 
-const BtnBackgroundColor = () => {
-  const [ color, setColor ] = useState ( '#f00' )
-  const colors = [
-    { name: 'red', color: '#f00' },
-    { name: 'white', color: '#fff' },
-    { name: 'blue', color: '#00f' },
-  ];
+const BtnBackgroundColor = ({btnBgColor, setAttributes}) => {
+	const colors = [
+		{ name: 'dark', color: '#0a1128' },
+		{ name: 'gray', color: '#d9d9d9' },
+		{ name: 'yellow', color: '#ffd700' },
+		{ name: 'light blue', color: '#87ceeb' },
+		{ name: 'coral', color: '#ff7f50' },
+		{ name: 'green', color: '#28a745' },       
+		{ name: 'deep red', color: '#b22222' },    
+		{ name: 'purple', color: '#6a0dad' },      
+	];
+	  
   return (
     <ColorPalette
       colors={ colors }
-      value={ color }
-      onChange={ ( color ) => setColor( color ) }
+      value={ btnBgColor }
+      onChange={ ( value ) => setAttributes( {btnBgColor: value }) }
     />
   );
 };
 
-const BtnTextColor = () => {
-	const [ color, setColor ] = useState ( '#f00' )
+const BtnTextColor = ({btnTextColor, setAttributes}) => {
 	const colors = [
-	  { name: 'red', color: '#f00' },
-	  { name: 'white', color: '#fff' },
-	  { name: 'blue', color: '#00f' },
+		{ name: 'dark', color: '#0a1128' },
+		{ name: 'gray', color: '#d9d9d9' },
+		{ name: 'yellow', color: '#ffd700' },
+		{ name: 'light blue', color: '#87ceeb' },
+		{ name: 'coral', color: '#ff7f50' },
+		{ name: 'green', color: '#28a745' },       
+		{ name: 'deep red', color: '#b22222' },    
+		{ name: 'purple', color: '#6a0dad' },      
 	];
 	return (
 	  <ColorPalette
 		colors={ colors }
-		value={ color }
-		onChange={ ( color ) => setColor( color ) }
+		value={ btnTextColor }
+		onChange={ ( color ) => setAttributes( {btnTextColor: color }) }
 	  />
 	);
   };
