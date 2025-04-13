@@ -16,25 +16,25 @@ $answer = $num1 + $num2;
     <form id="custom-contact-form" class="larris-contact-form__form" method="POST" action="">
         <ul class="larris-contact-form__list">
             <li class="larris-contact-form__item">
-                <label class="larris-contact-form__label">Your Name</label>
-                <input class="larris-contact-form__input" type="text" name="ccf_name" value="" required>
+                <label for="ccf_name" class="larris-contact-form__label">Your Name</label>
+                <input id="ccf_name" class="larris-contact-form__input" type="text" name="ccf_name" value="" required>
             </li>
             <li class="larris-contact-form__item">
-                <label class="larris-contact-form__label">Your Email</label>
-                <input class="larris-contact-form__input" type="email" name="ccf_email" value="" required>
+                <label for="ccf_email" class="larris-contact-form__label">Your Email</label>
+                <input id="ccf_email" class="larris-contact-form__input" type="email" name="ccf_email" value="" required>
             </li>
             <li class="larris-contact-form__item">
-                <label class="larris-contact-form__label">Subject</label>
-                <input class="larris-contact-form__input" type="text" name="ccf_subject" value="" required>
+                <label for="ccf_subject" class="larris-contact-form__label">Subject</label>
+                <input id="ccf_subject" class="larris-contact-form__input" type="text" name="ccf_subject" value="" required>
             </li>
             <li class="larris-contact-form__item">
-                <label class="larris-contact-form__label">Message</label>
-                <textarea class="larris-contact-form__textarea" name="ccf_message" required></textarea>
+                <label for="ccf_message" class="larris-contact-form__label">Message</label>
+                <textarea id="ccf_message" class="larris-contact-form__textarea" name="ccf_message" required></textarea>
             </li>
             <li class="larris-contact-form__item">
-                <label id="math-question" for="ccf_math">What is <?php echo $num1; ?> + <?php echo $num2; ?>?</label>
-                <input id="user-answer" class="larris-contact-form__input" type="text" name="ccf_math" required>
-                <input id="answer-key" type="hidden" class="ccf_math_answer" name="ccf_math_answer" value="<?php echo $answer; ?>">
+                <label for="ccf_math">What is <?php echo $num1; ?> + <?php echo $num2; ?>?</label>
+                <input id="ccf_math" class="larris-contact-form__input" type="text" name="ccf_math" required>
+                <input id="ccf_math" type="hidden" class="ccf_math_answer" name="ccf_math_answer" value="<?php echo $answer; ?>">
                 <p id="warning-input" style="color: red; display: none;">Incorrect answer. Please try again.</p>
             </li>
         </ul>
